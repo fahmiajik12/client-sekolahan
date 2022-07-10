@@ -44,6 +44,19 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {   
-                
+        $response = Http::post(env('REST_API_ENDPOINT').'/api/login', [
+            'username' => $request->username,
+            'password' => $request->password
+        ]);
+        
+        $data = json_decode($response);
+        if ($data->status == false) {
+            return redirect()->route('login')
+                ->with('danger',$data->message);
+        } else {
+            session()->put('tokenUser',$data->token);
+
+            return redirect()->route('dashboard');
+        }
     }
 }

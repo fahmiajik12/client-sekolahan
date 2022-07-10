@@ -35,7 +35,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- looping data siswa --}}
+                    @if (count ($siswas))
+                        @foreach ($siswas as $key => $siswa)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $siswa->nis }}</td>
+                                <td>{{ $siswa->nama }}</td>
+                                <td>{{ ucwords($siswa->gender) }}</td>
+                                <td>{{ $siswa->tempat_lahir }}, {{ Carbon\Carbon::parse($siswa->tgl_lahir)->format('d F Y') }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('siswa.edit', $siswa->id) }}">
+                                        <button class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Ubah">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </a>
+                                    <form id="delete-siswa-{{$siswa->id}}" action="/siswa/{{$siswa->id}}" method="post"
+                                        style="display: inline;">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

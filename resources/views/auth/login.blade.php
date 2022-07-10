@@ -1,6 +1,6 @@
 @extends('layouts/main-auth')
 
-@section('title', 'Login - Sistem Antrian Puskesmas')
+@section('title', 'Login - Sistem Presensi')
 
 @section('container')
 <div class="container">
@@ -8,13 +8,13 @@
       <div class="col-xl-10 col-lg-12 col-md-9">
         <div class="card o-hidden border-0 shadow-lg my-5">
           <div class="card-body p-0">
-            <div class="row align-items-center">
+            <div class="row align-items-center" >
               <div class="col-lg-6 d-none d-lg-block" style="padding-left: 50px;">
-                <div class="text-center">
+                <div class="text-center" >
                   <br>
-                    <h1 class="h2 text-gray-900 mb-4 font-weight-bold animate__animated animate__fadeInDown animate__delay-1s">Welcome Back!</h1>
+                    <h1 class="h2 text-gray-900 mb-4 font-weight-bold animate__animated animate__fadeInDown animate__delay-1s">Selamat Datang!</h1>
                   </div>
-                <img src="img/landing.svg" class="bg-login-image animate__animated animate__backInLeft" alt="">
+                <img src="img/Unimma.png" class="bg-login-image animate__animated animate__backInLeft" alt="">
               </div>
               <div class="col-lg-6">
                 <div class="p-5">
@@ -66,7 +66,7 @@
                         </label>                        
                       </div>
                     </div>
-                    <button class="btn btn-success btn-user btn-block" type="submit">
+                    <button class="btn btn-primary btn-user btn-block" type="submit">
                       Login
                     </button>
                     <hr>

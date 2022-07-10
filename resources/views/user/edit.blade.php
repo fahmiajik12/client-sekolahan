@@ -23,7 +23,7 @@
     <div class="card">
         @include ('includes.flash')
         <div class="card-body">
-            <form role="form" method="post" action="#">
+            <form role="form" method="post" action="{{ route('users.update',$user->id) }}">
                 @csrf
                 @method('put')
                 <div class="card-body">
@@ -37,7 +37,7 @@
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="username" value="masih kosong" required>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="username" value="{{ $user->username }}" required>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">Password</label>

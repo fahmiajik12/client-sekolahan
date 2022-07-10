@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 
 <head>
 
@@ -21,7 +21,7 @@
   <link href="{{ asset('css/style.css') }}" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" integrity="sha512-mSYUmp1HYZDFaVKK//63EcZq4iFWFjxSL+Z3T/aCt4IO9Cejm03q3NKKYN6pFQzY0SBOr8h+eCIAZHPXcpZaNw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
    <!-- Icon -->
-   <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}"/>
+   <link rel="icon" type="image/png" href="{{ asset('img/Unimma.png') }}"/>
    <script src="/vendor/jquery/jquery.min.js"></script>
    <!-- Animate CSS -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
@@ -36,11 +36,11 @@
 
 <body id="page-top">
   <div id="wrapper">
-    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+    <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
       <!-- Sidebar - Brand -->
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ url('/') }}">
           <div class="sidebar-brand-icon">
-              <img src="{{ asset('img/icon-logo.png') }}" alt="" width="50">
+              <img src="{{ asset('img/Unimma.png') }}" alt="" width="50">
           </div>
           <div class="sidebar-brand-text mx-2">{{ env('APP_NAME') }}</div>
       </a>
@@ -61,7 +61,16 @@
           <i class="far fa-user"></i>
           <span>&nbsp; Manajemen Akun</span>
         </a>
-      </li>          
+      </li>
+      @if  (session()->get('userLogged')->type != 'admin')
+      <li class="nav-item  {{ \Str::is('account.*', Route::currentRouteName()) ? 'active' : '' }}">
+        <a class="nav-link" href="{{ route('kelas.index') }}">
+          <i class="fas fa-landmark"></i>
+          <span>&nbsp; Kelas</span>
+        </a>
+      </li>
+      @endif
+      @if  (session()->get('userLogged')->type != 'guru')           
         <li class="nav-item  {{ \Str::is('users.*', Route::currentRouteName()) ? 'active' : '' }}" href="{{ route('users.index') }}">
           <a class="nav-link" href="{{ route('users.index') }}">
             <i class="fa fa-users"></i>
@@ -83,19 +92,28 @@
           <div id="collapseKriteria" class="collapse {{ \Str::is('guru.*', Route::currentRouteName()) ? 'show' : '' }} {{ \Str::is('kelas.*', Route::currentRouteName()) ? 'show' : '' }} {{ \Str::is('siswa.*', Route::currentRouteName()) ? 'show' : '' }} {{ \Str::is('mapel.*', Route::currentRouteName()) ? 'show' : '' }}" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
               <div class="bg-white py-2 collapse-inner rounded">
               <h6 class="collapse-header">Manajemen Data :</h6>              
-              <a class="collapse-item {{ \Str::is('guru.*', Route::currentRouteName()) ? 'active' : '' }}" href="{{ route('guru.index') }}"><i class="fas fa-users"></i> Guru</a>
-              <a class="collapse-item {{ \Str::is('kelas.*', Route::currentRouteName()) ? 'active' : '' }}" href="{{ route('kelas.index') }}"><i class="fas fa-landmark"></i> Kelas</a>
-              <a class="collapse-item {{ \Str::is('siswa.*', Route::currentRouteName()) ? 'active' : '' }}" href="{{ route('siswa.index') }}"><i class="fas fa-users"></i> Siswa</a>
-              <a class="collapse-item {{ \Str::is('mapel.*', Route::currentRouteName()) ? 'active' : '' }}" href="{{ route('mapel.index') }}"><i class="fas fa-clipboard-check"></i> Mapel</a>                            
+              <a class="collapse-item {{ \Str::is('guru.*', Route::currentRouteName()) ? 'active' : '' }}" href="{{ route('guru.index') }}" ><i class="fas fa-users"></i> Guru</a>
+              <a class="collapse-item {{ \Str::is('kelas.*', Route::currentRouteName()) ? 'active' : '' }}" href="{{ route('kelas.index') }}" ><i class="fas fa-landmark"></i> Kelas</a> 
+              <a class="collapse-item {{ \Str::is('siswa.*', Route::currentRouteName()) ? 'active' : '' }}" href="{{ route('siswa.index') }}" ><i class="fas fa-users"></i> Siswa</a>
+              <a class="collapse-item {{ \Str::is('mapel.*', Route::currentRouteName()) ? 'active' : '' }}" href="{{ route('mapel.index') }}" ><i class="fas fa-clipboard-check"></i> Mapel</a>                           
               </div>
           </div>
         </li>
+        @endif
         <li class="nav-item  {{ \Str::is('jadwal.*', Route::currentRouteName()) ? 'active' : '' }}">
           <a class="nav-link" href="{{ route('jadwal.index') }}">
             <i class="far fa-calendar-alt"></i>
             <span>&nbsp; Jadwal Pelajaran</span>
           </a>
-        </li>                     
+        </li>
+        @if  (session()->get('userLogged')->type != 'guru')
+        <li class="nav-item  {{ \Str::is('presensi.*', Route::currentRouteName()) ? 'active' : '' }}">
+          <a class="nav-link" href="/rekap-presensi">
+            <i class="fa fa-book"></i>
+            <span>&nbsp; Rekap Presensi</span>
+          </a>
+        </li>
+        @endif                   
     </ul>
     <!-- Sidebar -->
 
@@ -114,7 +132,7 @@
             <!-- Nav Item - User -->
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">User</span>
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ ucfirst(session()->get('userLogged')->username) }}</span>
                 <img class="img-profile rounded-circle" src="{{ asset('img/avatar.jpg') }}">
                 <div style="padding-left:0.5rem;"><i class="fas fa-angle-down"></i></div>
               </a>

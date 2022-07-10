@@ -19,7 +19,7 @@ class HomeController extends Controller
      */    
     public function index()
     {
-        if (Auth::check()) {            
+        if (session()->get('userLogged') != null) {
             return redirect()->route('dashboard');
         }
         return redirect()->route('login');
@@ -27,19 +27,7 @@ class HomeController extends Controller
 
     public function dashboard()
     {        
-        if (Auth::user()->type == 'admin') {
-            $this->data['jmlGuru'] = Account::count();
-            $this->data['jmlKelas'] = Kelas::count();
-            $this->data['jmlSiswa'] = Siswa::count();
-            $this->data['jmlMapel'] = Mapel::count();
-            $this->data['jmlJadwal'] = Jadwal::where('is_active',1)->count();
-        }else {
-            $this->data['jmlKelas'] = Jadwal::where('guru_id',Auth::user()->guru->id)->count();
-            $this->data['jmlJadwal'] = Jadwal::where('guru_id',Auth::user()->guru->id)
-                                                ->where('is_active',1)
-                                                ->count();                
-        }
-        return view('admin.dashboard',$this->data);
+        return view('admin.dashboard');
     }
 
     public function not_found()

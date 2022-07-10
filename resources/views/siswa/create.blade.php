@@ -30,19 +30,16 @@
                     <div class="form-group">
                         <label for="exampleInputJK">Kelas</label>
                         <select class="form-control" name="kelas_id" id="kelas_id" required>
-                            <option value="">kelas 1</option>                            
-                            <option value="">kelas 2</option>                            
-                            <option value="">kelas 3</option>                            
+                            @foreach ($dataKelas as $key => $kelas)
+                                <option value="{{ $kelas->id }}">{{ $kelas->nama_kelas }}</option>
+                            @endforeach                           
                         </select>
                     </div>
                     <div class="form-group">
                         <label for="exampleInputPassword1">NIS</label>
                         <input type="text" class="form-control" name="nis" id="nis" placeholder="nis" required>
                     </div>
-                    <div class="form-group">
-                        <label for="exampleInputPassword1">TAHUN MASUK</label>
-                        <input type="text" class="form-control" name="tahun_masuk" id="tahun_masuk" placeholder="tahun masuk" required>
-                    </div>
+                    
                     <div class="form-group">
                         <label for="exampleInputPassword1">Nama</label>
                         <input type="text" class="form-control" name="nama" id="nama" placeholder="nama" required>

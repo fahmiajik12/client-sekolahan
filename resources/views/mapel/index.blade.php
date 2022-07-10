@@ -33,7 +33,30 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- looping data mapel --}}
+                    @if (count ($mapels))
+                        @foreach ($mapels as $key => $mapel)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $mapel->kode_mapel }}</td>
+                                <td>{{ $mapel->nama_mapel }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('mapel.edit', $mapel->id) }}">
+                                        <button class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Ubah">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </a>
+                                    <form id="delete-mapel-{{$mapel->id}}" action="/mapel/{{$mapel->id}}" method="post"
+                                        style="display: inline;">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

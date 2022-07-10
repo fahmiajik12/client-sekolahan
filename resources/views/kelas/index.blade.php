@@ -29,22 +29,49 @@
                     <th width="40">NO</th>
                     <th>KODE KELAS</th>
                     <th>NAMA KELAS</th>
+                    @if(session()->get('userLogged')->type=='admin')
                     <th width="120">AKSI</th>
+                    @endif
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- looping --}}
+                    @if (count ($dataKelas))
+                        @foreach ($dataKelas as $key => $kelas)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $kelas->kode_kelas }}</td>
+                                <td>{{ $kelas->nama_kelas }}</td>
+                                @if(session()->get('userLogged')->type=='admin')
+                                <td class="text-center">
+                                    <a href="{{ route('kelas.edit', $kelas->id) }}">
+                                        <button class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Ubah">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </a>
+                                    <form id="delete-kelas-{{$kelas->id}}" action="/kelas/{{$kelas->id}}" method="post"
+                                        style="display: inline;">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                                @endif
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
     </div>
 </section>
 @include ('includes.scripts')
-    @if (auth()->user()->type == 'admin')
+        
         <script type="text/javascript">
             $(document).ready(function(){
                 $("#data-admin_length").append('<a  href="{{ route('kelas.create') }}"> <button type="button" class="btn btn-outline-primary ml-3">Tambah</button></a>');
             });
         </script>
-    @endif    
+          
 @endsection

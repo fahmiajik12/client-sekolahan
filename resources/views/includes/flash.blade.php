@@ -23,3 +23,15 @@
     @endforeach
 </div>
 @endif
+
+@if (Session::has('validationErrors'))
+    <div class="alert alert-danger">
+        @foreach (Session::get('validationErrors') as $item)
+            @foreach ($item as $err)
+                <ul>
+                    <li>{{ $err }}</li>
+                </ul>
+            @endforeach
+        @endforeach
+    </div>
+@endif

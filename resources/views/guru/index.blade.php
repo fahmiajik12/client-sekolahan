@@ -27,7 +27,7 @@
                 <thead>
                     <tr>
                     <th width="40">NO</th>
-                    <th>NUPTK</th>
+                    <th>NIP</th>
                     <th>NAMA</th>
                     <th>JENIS KELAMIN</th>
                     <th>TTL</th>
@@ -35,7 +35,32 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- looping --}}
+                    @if (count ($dataGuru))
+                        @foreach ($dataGuru as $key => $guru)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $guru->nip }}</td>
+                                <td>{{ $guru->nama }}</td>
+                                <td>{{ ucwords($guru->gender) }}</td>
+                                <td>{{ $guru->tempat_lahir }}, {{ Carbon\Carbon::parse($guru->tgl_lahir)->format('d F Y') }}</td>
+                                <td class="text-center">
+                                    <a href="{{ route('guru.edit', $guru->id) }}">
+                                        <button class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Ubah">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </a>
+                                    <form id="delete-guru-{{$guru->id}}" action="/guru/{{$guru->id}}" method="post"
+                                        style="display: inline;">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>

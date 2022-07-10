@@ -31,20 +31,56 @@
                     <th>MAPEL</th>
                     <th>GURU PENGAMPU</th>
                     <th>HARI</th>
-                    <th width="120">AKSI</th>
+                    <th>AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- looping data jadwal --}}
+                    @if (count($jadwals))
+                        @foreach ($jadwals as $key => $jadwal)
+                            <tr>
+                                <td>{{ $key+1 }}</td>
+                                <td>{{ $jadwal->nama_kelas }}</td>
+                                <td>{{ $jadwal->nama_mapel }}</td>
+                                <td>{{ $jadwal->nama }}</td>
+                                <td>{{ $jadwal->hari }}</td>
+                                <td class="text-center">
+                                    @if(session()->get('userLogged')->type=='admin')
+                                    <a href="{{ route('jadwal.edit', $jadwal->id) }}">
+                                        <button class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Ubah">
+                                            <i class="fa fa-edit"></i>
+                                        </button>
+                                    </a>
+                                    <form id="delete-jadwal-{{$jadwal->id}}" action="/jadwal/{{$jadwal->id}}" method="post"
+                                        style="display: inline;">
+                                        @method('DELETE')
+                                        @csrf
+                                        <button class="btn btn-danger" data-toggle="tooltip" data-placement="top" title="Hapus">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </form>
+                                    @endif
+                                    @if(session()->get('userLogged')->type=='guru')
+                                    <a href="/get-siswa/{{ $jadwal->id }}">
+                                        <button class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Presensi">
+                                            <i class="fa fa-fingerprint"></i>
+                                        </button>
+                                    </a>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
     </div>
 </section>
 @include ('includes.scripts')
+@if(session()->get('userLogged')->type=='admin')
     <script type="text/javascript">
         $(document).ready(function(){
             $("#data-admin_length").append('<a  href="{{ route('jadwal.create') }}"> <button type="button" class="btn btn-outline-primary ml-3">Tambah</button></a>');
         });
     </script>
+    @endif
 @endsection

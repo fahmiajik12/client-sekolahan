@@ -28,10 +28,10 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="exampleInputPassword1">User ID</label>
-                        <select class="form-control" name="users_id" id="users_id" required>
-                            <option value="">User 1</option>
-                            <option value="">User 2</option>
-                            <option value="">User 3</option>
+                        <select class="form-control" name="user_id" id="users_id" required>
+                            @foreach ($users as $key => $user)
+                                <option value="{{ $user->id }}">{{ $user->username }}</option>
+                            @endforeach
                         </select>
                     </div>
                     <div class="form-group">
